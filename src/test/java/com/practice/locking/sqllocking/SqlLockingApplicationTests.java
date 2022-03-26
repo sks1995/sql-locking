@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Slf4j
 @SpringBootTest
 class SqlLockingApplicationTests {
 
@@ -68,6 +70,7 @@ class SqlLockingApplicationTests {
 		Stock stock = stockRepository.getById(PRODUCT_ID);
 		Assertions.assertNotEquals(0, stock.getCount());
 		Assertions.assertEquals(1000, auditCount);
+		log.info("TestCase=test_failureScenario currentStockCount={}, currentAuditEntries={}", stock.getCount(), auditCount);
 	}
 
 	@Test
@@ -90,6 +93,8 @@ class SqlLockingApplicationTests {
 		long auditCount = auditRepository.count();
 		Stock stock = stockRepository.getById(PRODUCT_ID);
 		Assertions.assertEquals(auditCount, stock.getVersion());
+		log.info("TestCase=test_OptimisticLockingScenario currentStockCount={}, versionCount={}, currentAuditEntries={}",
+				stock.getCount(), stock.getVersion(), auditCount);
 	}
 
 
@@ -110,11 +115,13 @@ class SqlLockingApplicationTests {
 			}
 		}
 
-		long count = auditRepository.count();
+		long auditCount = auditRepository.count();
 		Stock stock = stockRepository.getById("id1");
-		Assertions.assertEquals(400, count);
+		Assertions.assertEquals(400, auditCount);
 		Assertions.assertEquals(0, stock.getCount());
 		Assertions.assertEquals(400, stock.getVersion());
+		log.info("TestCase=test_PessimisticLockingScenario currentStockCount={}, currentAuditEntries={},versionCount={} ",
+				stock.getCount(), stock.getVersion(), auditCount);
 	}
 
 }
