@@ -18,6 +18,10 @@ public class PurchaseOrder {
   private StockRepository stockRepository;
   private AuditRepository auditRepository;
 
+  /**
+   * Purchase the product without considering version field in stock_table
+   * @param productId Id of the product
+   */
   public void purchase(String productId) {
     Optional<Stock> practiceOptional = stockRepository.findById(productId);
     if (practiceOptional.isPresent() && practiceOptional.get().getCount() > 0){
@@ -31,6 +35,11 @@ public class PurchaseOrder {
     }
   }
 
+  /**
+   * Purchase the product by considering version field in stock_table
+   * OptimisticLocking case
+   * @param productId Id of the product
+   */
   public void purchaseV1(String productId){
     Optional<Stock> practiceOptional = stockRepository.findById(productId);
     if (practiceOptional.isPresent() && practiceOptional.get().getCount() > 0){
@@ -43,6 +52,12 @@ public class PurchaseOrder {
     }
   }
 
+  /**
+   * Purchase the product by locking the row.
+   * Notice the @Transactional annotation.
+   * PessimisticLocking case
+   * @param productId Id of the product
+   */
   @Transactional
   public void purchaseV2(String productId){
     Optional<Stock> practiceOptional = stockRepository.findById1(productId);

@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 public interface StockRepository extends JpaRepository<Stock, String> {
 
 
+  /**
+   * Does a simple update on Id
+   */
   @Transactional
   @Modifying
   @Query(value =
@@ -26,6 +29,11 @@ public interface StockRepository extends JpaRepository<Stock, String> {
       @Param("id") String id
   );
 
+  /**
+   *
+   * Used for optimistic locking.
+   * Considers updating version field while updating the record.
+   */
   @Transactional
   @Modifying
   @Query(value =
@@ -39,6 +47,9 @@ public interface StockRepository extends JpaRepository<Stock, String> {
       @Param("id") String id
   );
 
+  /**
+   * Acquire mutually exclusive lock. Used for pessimistic locking
+   */
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   @Query(value =
       "select p from Stock p"

@@ -49,6 +49,9 @@ class SqlLockingApplicationTests {
 		stockRepository.deleteAll();
 	}
 
+	/**
+	 * Failure case scenario
+	 */
 	@Test
 	void test_failureScenario() {
 
@@ -73,6 +76,9 @@ class SqlLockingApplicationTests {
 		log.info("TestCase=test_failureScenario currentStockCount={}, currentAuditEntries={}", stock.getCount(), auditCount);
 	}
 
+	/**
+	 * OptimisticLocking  scenario
+	 */
 	@Test
 	void test_OptimisticLockingScenario() {
 
@@ -98,6 +104,9 @@ class SqlLockingApplicationTests {
 	}
 
 
+	/**
+	 * PessimisticLocking  scenario
+	 */
 	@Test
 	void test_PessimisticLockingScenario() {
 
