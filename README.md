@@ -1,7 +1,7 @@
 # SqlLockingApplication
 This is a small project to understand the role of optimistic and pessimistic locking in dealing with highly concurrent systems.
 
-## Medium Article [Link](https://medium.com) 
+## Medium Article [Link](https://medium.com/@isumitkr7/concurrency-control-with-locking-optimistic-and-pessimistic-with-hands-on-412e7a9876eb) 
 It explains the Concurrency Control With Optimistic and Pessimistic Locking
 
 ## How to setup ?
